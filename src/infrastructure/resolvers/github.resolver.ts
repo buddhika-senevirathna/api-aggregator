@@ -33,4 +33,14 @@ export class GitHubIssueResolver {
     async getGitHubNumberOfRepos(@Arg("number_of_repos") number_of_repos: number): Promise<GitHubRepositories[]>{
               return await this.gitHubIssueService.getGitHubNumberOfRepos(number_of_repos);
     }
+
+    @Mutation(() => GitHubIssue)
+    async reactGitHubIssue(
+        @Arg("owner") owner: string,
+        @Arg("repository") repository: string, 
+        @Arg("issue_id") id: string,
+        @Arg("reaction") reaction: string
+    ): Promise<GitHubIssue | undefined> {
+        return await this.gitHubIssueService.reactGitHubIssue(owner, repository, id, reaction);
+    }
 }

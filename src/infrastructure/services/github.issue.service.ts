@@ -17,4 +17,8 @@ export class GithubIssueService {
     async getGitHubNumberOfRepos(number_of_repos:number): Promise<GitHubRepositories[]> {
         return await this.gitHubRepository.getGitHubNumberOfRepos(number_of_repos);
     }
+
+    async reactGitHubIssue(owner:string, repository:string, id:string, reaction:string): Promise<GitHubIssue| undefined> {
+        return await this.gitHubRepository.reactGitHubIssue(owner, repository, id, reaction);
+    }
 }

@@ -12,4 +12,11 @@ export interface IGitHubRepository {
   ): Promise<GitHubIssue | undefined>;
 
   getGitHubNumberOfRepos(number_of_repos: number): Promise<GitHubRepositories[]>;
+
+  reactGitHubIssue(
+    owner: string,
+    repository: string,
+    id: string,
+    reaction: string
+  ): Promise<GitHubIssue | undefined>;
 }

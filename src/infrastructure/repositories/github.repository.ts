@@ -1,5 +1,4 @@
 import { IGitHubRepository } from "../../interfaces/iGitHubRepository";
-import { config } from "../../services/config.service";
 import { injectable } from "tsyringe";
 import {
   GitHubIssue,
@@ -8,12 +7,13 @@ import {
 import { LoggerService } from "../../services/logger.service";
 import { GitHubBaseRepository } from "./github.base.repository";
 
-const logger = new LoggerService();
+
 @injectable()
 export class GithubRepository
   extends GitHubBaseRepository
   implements IGitHubRepository
 {
+  private readonly logger: LoggerService = new LoggerService(GithubRepository.name);
   async getGitHubRepositoryIssues(
     owner: string,
     repo: string
@@ -83,5 +83,29 @@ export class GithubRepository
   }`;
     const result = await this.executeGitHubQueries(query, { number_of_repos });
     return result.data.viewer.repositories.nodes;
+  }
+
+  async reactGitHubIssue(
+    owner: string,
+    repository: string,
+    id: string,
+    reaction: string
+  ): Promise<GitHubIssue | undefined> {
+    const query = `mutation ($issue_id: ID!, $GitHubIssueReaction: ReactionContent!) {
+      addReaction(input: { subjectId: $issue_id, content:$GitHubIssueReaction  }) {
+        reaction {
+          content
+        }
+        subject {
+          id
+        }
+      }
+    }`;
+    const result = await this.executeGitHubQueries(query, {
+      issue_id: id,
+      GitHubIssueReaction: reaction,
+    });
+    console.log("result", result);
+    return result;
   }
 }
