@@ -10,13 +10,4 @@ export class GitHubIssue {
 
   @Field()
   url!: string;
-
-  @Field(() => [GitHubUser])
-  author!: GitHubUser[];
-}
-
-@ObjectType()
-export class GitHubUser {
-  @Field(() => String)
-  login!: string;
 }

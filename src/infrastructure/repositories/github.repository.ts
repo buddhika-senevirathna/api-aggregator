@@ -3,14 +3,15 @@ import { config } from "../../services/config.service";
 import { injectable } from "tsyringe";
 import { GitHubIssue } from "../../models/github.issue.model";
 import { LoggerService } from "../../services/logger.service";
+import { GitHubBaseRepository } from "./github.base.repository";
 
 const logger = new LoggerService();
 @injectable()
-export class GithubRepository implements IGitHubRepository {
+export class GithubRepository extends GitHubBaseRepository implements IGitHubRepository {
   async getGitHubRepositoryIssues(
     owner: string,
     repo: string
-  ): Promise<GitHubIssue | undefined> {
+  ): Promise<GitHubIssue[] | undefined> {
     const query = `query ($owner: String!, $repository_name: String!) {
             repository(owner: $owner, name: $repository_name) {
                 issues(last: 10, states: OPEN) {
@@ -32,24 +33,8 @@ export class GithubRepository implements IGitHubRepository {
                 }          
             }
         }`;
-    try {
-      const response = await fetch(config.GITHUB_API_URL, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${config.GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query,
-          variables: { owner, repository_name: repo },
-        }),
-      });
-      const result = await response.json();
-      return result["data"]["repository"]["issues"]["nodes"];
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error";
-      logger.error("Error fetching GitHub issues:", message);
-    }
+      const result = await this.executeGitHubQueries(query, { owner, repository_name: repo });
+      return result.data.repository.issues.nodes;
   }
 
   async getGitHubIssueDetails(
@@ -66,24 +51,7 @@ export class GithubRepository implements IGitHubRepository {
             }          
         }
     }`;
-    try {
-      const response = await fetch(config.GITHUB_API_URL, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${config.GITHUB_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query,
-          variables: { owner, repository_name, issue_number },
-        }),
-      });
-      const result = await response.json();
-      console.log(JSON.stringify(result));
-      return result["data"]["repository"]["issue"];
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Unknown error";
-      logger.error("Error fetching GitHub issues:", message);
-    }
+      const result = await this.executeGitHubQueries(query, { owner, repository_name, issue_number });
+      return result.data.repository.issue;
   }
 }
