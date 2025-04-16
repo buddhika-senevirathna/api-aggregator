@@ -105,7 +105,44 @@ export class GithubRepository
       issue_id: id,
       GitHubIssueReaction: reaction,
     });
-    console.log("result", result);
     return result;
+  }
+
+  async getGitHubRepositoryId( 
+    owner: string,
+    repository_name: string
+  ): Promise<string | undefined> {
+    const query = `query ($owner: String!, $repository_name: String!) {
+      repository(owner: $owner, name: $repository_name) {
+        id
+      }
+    }`;
+    const result = await this.executeGitHubQueries(query, {
+      owner,
+      repository_name,
+    });
+    return result.data.repository.id;
+  }
+
+  async createGitHubIssue(
+    repository: string,
+    title: string,
+    body: string
+  ): Promise<GitHubIssue | undefined> {
+    const query = `mutation ($repository_id: ID!, $title: String!, $body: String!) {
+      createIssue(input: { repositoryId: $repository_id, title:$title, body:$body }) {
+        issue {
+          id
+          title
+          url
+        }
+      }
+    }`;
+    const result = await this.executeGitHubQueries(query, {
+      repository_id: repository,
+      title,
+      body,
+    });
+    return result.data.createIssue.issue;
   }
 }

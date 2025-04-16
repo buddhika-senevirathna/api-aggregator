@@ -19,4 +19,15 @@ export interface IGitHubRepository {
     id: string,
     reaction: string
   ): Promise<GitHubIssue | undefined>;
+
+  getGitHubRepositoryId(
+    owner: string,
+    repository: string
+  ): Promise<string | undefined>;
+
+  createGitHubIssue(
+    repository: string,
+    title: string,
+    body: string
+  ): Promise<GitHubIssue | undefined>;
 }

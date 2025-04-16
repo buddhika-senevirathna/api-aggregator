@@ -34,6 +34,11 @@ export class GitHubIssueResolver {
               return await this.gitHubIssueService.getGitHubNumberOfRepos(number_of_repos);
     }
 
+    @Query(() => String)
+    async getGitHubRepositoryId(@Arg("owner") owner: string, @Arg("repository") repository: string): Promise<string | undefined> {
+            return await this.gitHubIssueService.getGitHubRepositoryId(owner, repository);
+    }
+
     @Mutation(() => GitHubIssue)
     async reactGitHubIssue(
         @Arg("owner") owner: string,
@@ -42,5 +47,19 @@ export class GitHubIssueResolver {
         @Arg("reaction") reaction: string
     ): Promise<GitHubIssue | undefined> {
         return await this.gitHubIssueService.reactGitHubIssue(owner, repository, id, reaction);
+    }
+
+    @Mutation(() => GitHubIssue)
+    async createGitHubIssue(
+        @Arg("repository_id") repository: string,
+        @Arg("title") title: string,
+        @Arg("body") body: string
+    ): Promise<GitHubIssue | undefined> {
+        try {
+            return await this.gitHubIssueService.createGitHubIssue(repository, title, body);
+        } catch (error) {
+            console.error("Error creating GitHub issue:", error);
+            throw new Error("Failed to create GitHub issue");
+        }
     }
 }

@@ -4,21 +4,69 @@ import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class GithubIssueService {
-    constructor(@inject('IGitHubRepository') private readonly gitHubRepository:IGitHubRepository) {}
+  constructor(
+    @inject("IGitHubRepository")
+    private readonly gitHubRepository: IGitHubRepository
+  ) {}
 
-    async getGitHubRepositoryIssues(owner:string, repository:string): Promise<GitHubIssue[]| undefined> {
-        return await this.gitHubRepository.getGitHubRepositoryIssues(owner, repository);
-    }
+  async getGitHubRepositoryIssues(
+    owner: string,
+    repository: string
+  ): Promise<GitHubIssue[] | undefined> {
+    return await this.gitHubRepository.getGitHubRepositoryIssues(
+      owner,
+      repository
+    );
+  }
 
-   async getGitHubIssueDetails(owner:string, repository:string, issue_number:number): Promise<GitHubIssue| undefined> {
-        return await this.gitHubRepository.getGitHubIssueDetails(owner, repository, issue_number);
-    }
+  async getGitHubIssueDetails(
+    owner: string,
+    repository: string,
+    issue_number: number
+  ): Promise<GitHubIssue | undefined> {
+    return await this.gitHubRepository.getGitHubIssueDetails(
+      owner,
+      repository,
+      issue_number
+    );
+  }
 
-    async getGitHubNumberOfRepos(number_of_repos:number): Promise<GitHubRepositories[]> {
-        return await this.gitHubRepository.getGitHubNumberOfRepos(number_of_repos);
-    }
+  async getGitHubNumberOfRepos(
+    number_of_repos: number
+  ): Promise<GitHubRepositories[]> {
+    return await this.gitHubRepository.getGitHubNumberOfRepos(number_of_repos);
+  }
 
-    async reactGitHubIssue(owner:string, repository:string, id:string, reaction:string): Promise<GitHubIssue| undefined> {
-        return await this.gitHubRepository.reactGitHubIssue(owner, repository, id, reaction);
-    }
+  async reactGitHubIssue(
+    owner: string,
+    repository: string,
+    id: string,
+    reaction: string
+  ): Promise<GitHubIssue | undefined> {
+    return await this.gitHubRepository.reactGitHubIssue(
+      owner,
+      repository,
+      id,
+      reaction
+    );
+  }
+
+  async createGitHubIssue(
+    repository: string,
+    title: string,
+    body: string
+  ): Promise<GitHubIssue | undefined> {
+    return await this.gitHubRepository.createGitHubIssue(
+      repository,
+      title,
+      body
+    );
+  }
+
+  async getGitHubRepositoryId(
+    owner: string,
+    repository: string
+  ): Promise<string | undefined> {
+    return await this.gitHubRepository.getGitHubRepositoryId(owner, repository);
+  }
 }
