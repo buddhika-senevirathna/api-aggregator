@@ -1,4 +1,4 @@
-import { GitHubIssue } from "src/models/github.issue.model";
+import { GitHubIssue, GitHubRepositories } from "../models/github.issue.model";
 
 export interface IGitHubRepository {
   getGitHubRepositoryIssues(
@@ -10,4 +10,6 @@ export interface IGitHubRepository {
     repository: string,
     issue_number: number
   ): Promise<GitHubIssue | undefined>;
+
+  getGitHubNumberOfRepos(number_of_repos: number): Promise<GitHubRepositories[]>;
 }

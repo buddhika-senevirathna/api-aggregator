@@ -1,13 +1,19 @@
 import { IGitHubRepository } from "../../interfaces/iGitHubRepository";
 import { config } from "../../services/config.service";
 import { injectable } from "tsyringe";
-import { GitHubIssue } from "../../models/github.issue.model";
+import {
+  GitHubIssue,
+  GitHubRepositories,
+} from "../../models/github.issue.model";
 import { LoggerService } from "../../services/logger.service";
 import { GitHubBaseRepository } from "./github.base.repository";
 
 const logger = new LoggerService();
 @injectable()
-export class GithubRepository extends GitHubBaseRepository implements IGitHubRepository {
+export class GithubRepository
+  extends GitHubBaseRepository
+  implements IGitHubRepository
+{
   async getGitHubRepositoryIssues(
     owner: string,
     repo: string
@@ -33,8 +39,11 @@ export class GithubRepository extends GitHubBaseRepository implements IGitHubRep
                 }          
             }
         }`;
-      const result = await this.executeGitHubQueries(query, { owner, repository_name: repo });
-      return result.data.repository.issues.nodes;
+    const result = await this.executeGitHubQueries(query, {
+      owner,
+      repository_name: repo,
+    });
+    return result.data.repository.issues.nodes;
   }
 
   async getGitHubIssueDetails(
@@ -51,7 +60,28 @@ export class GithubRepository extends GitHubBaseRepository implements IGitHubRep
             }          
         }
     }`;
-      const result = await this.executeGitHubQueries(query, { owner, repository_name, issue_number });
-      return result.data.repository.issue;
+    const result = await this.executeGitHubQueries(query, {
+      owner,
+      repository_name,
+      issue_number,
+    });
+    return result.data.repository.issue;
+  }
+
+  async getGitHubNumberOfRepos(
+    number_of_repos: number
+  ): Promise<GitHubRepositories[]> {
+    const query = `query ($number_of_repos: Int!) {
+      viewer {
+          name
+          repositories(last: $number_of_repos) {
+              nodes {
+                  name
+              }
+          }
+      }
+  }`;
+    const result = await this.executeGitHubQueries(query, { number_of_repos });
+    return result.data.viewer.repositories.nodes;
   }
 }

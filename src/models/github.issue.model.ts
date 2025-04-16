@@ -11,3 +11,9 @@ export class GitHubIssue {
   @Field()
   url!: string;
 }
+
+@ObjectType()
+export class GitHubRepositories {
+  @Field()
+  name!: string;
+}

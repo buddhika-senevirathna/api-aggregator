@@ -1,5 +1,5 @@
 import { IGitHubRepository } from "src/interfaces/iGitHubRepository";
-import { GitHubIssue } from "src/models/github.issue.model";
+import { GitHubIssue, GitHubRepositories } from "src/models/github.issue.model";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -12,5 +12,9 @@ export class GithubIssueService {
 
    async getGitHubIssueDetails(owner:string, repository:string, issue_number:number): Promise<GitHubIssue| undefined> {
         return await this.gitHubRepository.getGitHubIssueDetails(owner, repository, issue_number);
+    }
+
+    async getGitHubNumberOfRepos(number_of_repos:number): Promise<GitHubRepositories[]> {
+        return await this.gitHubRepository.getGitHubNumberOfRepos(number_of_repos);
     }
 }

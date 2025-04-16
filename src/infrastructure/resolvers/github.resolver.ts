@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
 import { injectable } from "tsyringe";
-import { GitHubIssue } from "../../models/github.issue.model";
+import { GitHubIssue, GitHubRepositories } from "../../models/github.issue.model";
 import { GithubIssueService } from "../services/github.issue.service";
 
 
@@ -27,5 +27,10 @@ export class GitHubIssueResolver {
             console.error("Error fetching GitHub issue details:", error);
             throw new Error("Failed to fetch GitHub issue details");
         }
+    }
+
+    @Query(() => [GitHubRepositories])
+    async getGitHubNumberOfRepos(@Arg("number_of_repos") number_of_repos: number): Promise<GitHubRepositories[]>{
+              return await this.gitHubIssueService.getGitHubNumberOfRepos(number_of_repos);
     }
 }
