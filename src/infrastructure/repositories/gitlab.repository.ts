@@ -3,10 +3,8 @@ import { injectable } from "tsyringe";
 import {
   GitLabProjects,
   GitLabProjectsIssues,
+  AwardEmojiAdd
 } from "../../models/gitlab.issue.model";
-import fetch from "node-fetch";
-import { LoggerService } from "../../services/logger.service";
-import { config } from "../../services/config.service";
 import { GitLabBaseRepository } from "./gitlab.base.repository";
 
 @injectable()
@@ -44,6 +42,8 @@ export class GitLabRepository
                       name
                       issues {
                         nodes {
+                          id
+                          iid
                           title
                           description
                         }
@@ -53,7 +53,84 @@ export class GitLabRepository
     const projectIssueList = await this.executeGitLabQueries(query, {
       project_path,
     });
-    
+
     return projectIssueList.data.project.issues.nodes;
+  }
+
+  async getGitLabProjectIssue(
+    project_path: string,
+    issue_id: string
+  ): Promise<GitLabProjectsIssues | undefined> {
+    const query = `query ($project_path: ID!, $issue_id: String!) {
+                    project(fullPath: $project_path) {
+                      name
+                      issue(iid: $issue_id) {
+                        id
+                        iid
+                        title
+                        description
+                      }
+                    }
+                  }`;
+    const projectIssue = await this.executeGitLabQueries(query, {
+      project_path,
+      issue_id,
+    });
+    console.log(projectIssue);
+
+    return projectIssue.data.project.issue;
+  }
+
+  async createGitLabProjectIssue(
+    project_path: string,
+    title: string,
+    description: string
+  ): Promise<GitLabProjectsIssues | undefined> {
+    const query = `mutation ($project_path: ID!, $title: String!, $description: String!) {
+                    createIssue(input: { projectPath: $project_path, title: $title, description: $description }) {
+                      issue {
+                        id
+                        iid
+                        title
+                        description
+                      }
+                    }
+                  }`;
+    const projectIssue = await this.executeGitLabQueries(query, {
+      project_path,
+      title,
+      description,
+    });
+
+    return projectIssue.data.createIssue.issue;
+  }
+
+  async awardEmojiToGitLabProjectIssue(
+    issue_id: string,
+    award_emoji: string
+  ): Promise<AwardEmojiAdd | undefined> {
+    const query = `mutation ($issue_id: AwardableID!, $award_emoji: String!) {
+                  awardEmojiAdd(input: { awardableId: $issue_id,
+                      name: $award_emoji
+                    }) {
+                    awardEmoji {
+                      name
+                      description
+                      unicode
+                      emoji
+                      unicodeVersion
+                      user {
+                        name
+                      }
+                    }
+                    errors
+                  }
+        }`;
+    const projectIssue = await this.executeGitLabQueries(query, {
+      issue_id,
+      award_emoji,
+    });
+
+    return projectIssue.data.awardEmojiAdd.awardEmoji;
   }
 }

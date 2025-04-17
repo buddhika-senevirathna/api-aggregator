@@ -1,4 +1,4 @@
-import { GitLabProjects, GitLabProjectsIssues } from "../models/gitlab.issue.model";
+import { GitLabProjects, GitLabProjectsIssues, AwardEmojiAdd } from "../models/gitlab.issue.model";
 
 export interface IGitLabRepository {
     getGitLabProjectsList(
@@ -8,5 +8,21 @@ export interface IGitLabRepository {
     getGitLabProjectIssues(
         project_path: string,
     ): Promise<GitLabProjectsIssues[] | undefined>;
+
+    getGitLabProjectIssue(
+        project_path: string,
+        issue_id: string,
+    ): Promise<GitLabProjectsIssues | undefined>;
+
+    createGitLabProjectIssue(
+        project_path: string,
+        title: string,
+        description: string,
+    ): Promise<GitLabProjectsIssues | undefined>;
+
+    awardEmojiToGitLabProjectIssue(
+        issue_id: string,
+        award_emoji: string,
+    ): Promise<AwardEmojiAdd | undefined>;
     
 }
