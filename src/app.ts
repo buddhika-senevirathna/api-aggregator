@@ -6,15 +6,17 @@ import { container } from "tsyringe";
 import { connectDB } from "./services/db.service";
 import { UserResolver } from "./infrastructure/resolvers/user.resolver";
 import { LoggerService } from "./services/logger.service";
-import "./container";
 import { GitHubIssueResolver } from "./infrastructure/resolvers/github.resolver";
+import { GitLabIssueResolver } from "./infrastructure/resolvers/gitlab.resolver";
+import { config } from "./services/config.service";
+import "./container";
 
 async function bootstrap() {
   const logger = new LoggerService();
   await connectDB();
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, GitHubIssueResolver],
+    resolvers: [UserResolver, GitHubIssueResolver, GitLabIssueResolver],
     container: {
       get: (someClass, resolverData) => container.resolve(someClass),
     },
@@ -22,7 +24,7 @@ async function bootstrap() {
 
   const server = new ApolloServer({ schema });
   const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: config.PORT },
   });
   logger.log(`🚀 Server ready at ${url}`);
 }

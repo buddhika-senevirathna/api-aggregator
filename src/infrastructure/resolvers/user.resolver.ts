@@ -10,7 +10,6 @@ export class UserResolver {
 
     @Query(() => [User])
     async users(): Promise<User[]> {
-        console.log("Fetching users for resolver:", this.userService);
         return this.userService.getUsers();
     }
 
