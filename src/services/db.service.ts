@@ -1,16 +1,25 @@
 import mongoose from "mongoose";
 import { LoggerService } from "./logger.service";
+import {Pool} from 'pg';
+import {config} from "../services/config.service";
 
 const logger = new LoggerService();
 
 export async function connectDB() {
-    const uri = process.env.MONGO_URI || "mongodb://localhost:27017/graphql-example";
+    const pool = new Pool({
+        user: config.DB_USER,
+        host: config.DB_HOST,
+        database: config.DB_NAME,
+        password: config.DB_PASSWORD,
+        port: Number(config.DB_PORT),
+    })
     try {
-        await mongoose.connect(uri);
-        logger.log("MongoDB connected successfully");
+        await pool.connect();
+        logger.log("PostgreSQL connected successfully");
     } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error";
-        logger.error("MongoDB connection error:", message);
+        logger.error("PostgreSQL connection error:", message);
         process.exit(1);
     }
 }
+ 
