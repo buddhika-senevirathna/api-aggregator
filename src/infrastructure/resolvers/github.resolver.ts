@@ -10,9 +10,9 @@ export class GitHubIssueResolver {
     constructor(private readonly gitHubIssueService: GithubIssueService) {}
 
     @Query(() => [GitHubIssue])
-    async getGitHubIssues(@Arg("owner") owner: string, @Arg("repository") repository: string): Promise<GitHubIssue[] | undefined> {
+    async getGitHubIssues(@Arg("owner") owner: string, @Arg("repository") repository: string, @Arg("userId") userId: string ): Promise<GitHubIssue[] | undefined> {
         try {
-            return await this.gitHubIssueService.getGitHubRepositoryIssues(owner, repository);
+            return await this.gitHubIssueService.getGitHubRepositoryIssues(owner, repository, userId);
         } catch (error) {
             console.error("Error fetching GitHub issues:", error);
             throw new Error("Failed to fetch GitHub issues"); 

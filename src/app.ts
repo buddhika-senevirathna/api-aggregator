@@ -3,7 +3,6 @@ import { ApolloServer } from "@apollo/server";
 import { buildSchema } from "type-graphql";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { container } from "tsyringe";
-import { connectDB } from "./services/db.service";
 import { UserResolver } from "./infrastructure/resolvers/user.resolver";
 import { LoggerService } from "./services/logger.service";
 import { GitHubIssueResolver } from "./infrastructure/resolvers/github.resolver";
@@ -13,7 +12,6 @@ import "./container";
 
 async function bootstrap() {
   const logger = new LoggerService();
-  await connectDB();
 
   const schema = await buildSchema({
     resolvers: [UserResolver, GitHubIssueResolver, GitLabIssueResolver],

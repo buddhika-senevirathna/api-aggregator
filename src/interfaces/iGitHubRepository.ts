@@ -3,7 +3,8 @@ import { GitHubIssue, GitHubRepositories } from "../models/github.issue.model";
 export interface IGitHubRepository {
   getGitHubRepositoryIssues(
     owner: string,
-    repository: string
+    repository: string,
+    credentials: string
   ): Promise<GitHubIssue[] | undefined>;
   getGitHubIssueDetails(
     owner: string,

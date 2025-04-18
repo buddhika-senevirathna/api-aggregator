@@ -1,12 +1,16 @@
 import { IGitLabRepository } from "src/interfaces/iGitLabRepository";
 import { GitLabProjects, GitLabProjectsIssues, AwardEmojiAdd } from "../../models/gitlab.issue.model";
 import { inject, injectable } from "tsyringe";
+import { UserService } from "./user.service";
 
 @injectable()
 export class GitLabIssueService {
-    constructor(@inject('IGitLabRepository') private readonly githubRepository:IGitLabRepository) {}
+    constructor(@inject('IGitLabRepository') private readonly githubRepository:IGitLabRepository,
+    @inject('UserServices') private readonly userServices:UserService,
+) {}
 
     getGitLabProjectsList(number_of_projects: number): Promise<GitLabProjects[] | undefined> {
+        this.userServices.getUserCredentials("11", "GitLab");
         return this.githubRepository.getGitLabProjectsList(number_of_projects);
     }
 

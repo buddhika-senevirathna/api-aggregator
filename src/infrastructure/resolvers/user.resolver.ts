@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Arg } from "type-graphql";
-import { User } from "../../models/user.model";
+import { User, Credentials } from "../../models/user.model";
 import { UserService } from "../services/user.service";
 import { injectable } from "tsyringe";
 
@@ -14,7 +14,18 @@ export class UserResolver {
     }
 
     @Mutation(() => User)
-    async createUser(@Arg("name") name: string): Promise<User> {
-        return this.userService.createUser(name);
+    async createUser(
+        @Arg("name") name: string,
+        @Arg("email") email: string,
+    ): Promise<User> {
+        return this.userService.createUser(name, email);
     }
+    @Mutation(() => Credentials)
+    async createUserWithCredentials(
+        @Arg("userId") name: string,
+        @Arg("provider") provider: string,
+        @Arg("credentials") credentials: string): Promise<any> {
+        return this.userService.createUserWithCredentials(name, provider, credentials);
+    }
+        
 }

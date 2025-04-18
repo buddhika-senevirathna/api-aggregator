@@ -1,21 +1,29 @@
 import { IGitHubRepository } from "src/interfaces/iGitHubRepository";
 import { GitHubIssue, GitHubRepositories } from "src/models/github.issue.model";
 import { inject, injectable } from "tsyringe";
+import { UserService } from "./user.service";
 
 @injectable()
 export class GithubIssueService {
   constructor(
     @inject("IGitHubRepository")
-    private readonly gitHubRepository: IGitHubRepository
+    private readonly gitHubRepository: IGitHubRepository,
+    @inject("UserService") private readonly userService: UserService
   ) {}
 
   async getGitHubRepositoryIssues(
     owner: string,
-    repository: string
+    repository: string,
+    userId: string
   ): Promise<GitHubIssue[] | undefined> {
+    const credentials = await this.userService.getUserCredentials(userId, "GitHub");
+    if (!credentials) {
+      throw new Error("User credentials not found");
+    }
     return await this.gitHubRepository.getGitHubRepositoryIssues(
       owner,
-      repository
+      repository,
+      credentials
     );
   }
 
