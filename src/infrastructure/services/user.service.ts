@@ -2,12 +2,15 @@ import { injectable, inject } from "tsyringe";
 import { IUserRepository } from "../../interfaces/iUserRepository";
 import { User } from "../../models/user.model";
 import crypto from 'crypto';
+import { LoggerService } from "../../services/logger.service";
 
 @injectable()
 export class UserService {
     private readonly algorithm: string = "aes-256-cbc";
     private readonly ENCRYPTION_KEY = "TDnL3fKsE6k90AOhF0EZIGSlu9ridiqO";
     private readonly IV_LENGTH = 16;
+
+    private readonly logger: LoggerService = new LoggerService(UserService.name);
 
     constructor(@inject("IUserRepository") private readonly repo: IUserRepository) {
         this.algorithm = "aes-256-cbc";
@@ -43,18 +46,27 @@ export class UserService {
             const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
             return iv.toString('hex') + ':' + encrypted.toString('hex');
         } catch (error) {
-            console.error("Encryption error:", error);
+            const message = error instanceof Error ? error.message : "Unknown error";
+            this.logger.error("Decrypt error:", message);
             throw new Error("Encryption failed");
         }
         
       }
       
     private async decrypt(text: string) {
-        const parts = text.split(':');
+        try {
+            const parts = text.split(':');
         const iv = Buffer.from(parts[0], 'hex');
         const encryptedText = Buffer.from(parts[1], 'hex');
         const decipher = crypto.createDecipheriv(this.algorithm, Buffer.from(this.ENCRYPTION_KEY), iv);
         const decrypted = Buffer.concat([decipher.update(encryptedText), decipher.final()]);
         return decrypted.toString();
+        } catch (error) {
+            const message = error instanceof Error ? error.message : "Unknown error";
+            this.logger.error("Decrypt error:", message);
+            throw new Error(`Decrypt error: ${message}`);
+            
+        }
+        
     }
 }
