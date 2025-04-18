@@ -14,6 +14,13 @@ export class GithubRepository
   implements IGitHubRepository
 {
   private readonly logger: LoggerService = new LoggerService(GithubRepository.name);
+
+  /**
+   * Return the last 10 issues of a repository related to a specific user
+   * @param repo 
+   * @param credentials 
+   * @returns 
+   */
   async getGitHubRepositoryIssues(
     owner: string,
     repo: string,
@@ -47,6 +54,14 @@ export class GithubRepository
     return result.data.repository.issues.nodes;
   }
 
+  /**
+   * Return the details of one issue in the repository.
+   * @param owner 
+   * @param repository_name 
+   * @param issue_number 
+   * @param credentials 
+   * @returns 
+   */
   async getGitHubIssueDetails(
     owner: string,
     repository_name: string,
@@ -70,6 +85,12 @@ export class GithubRepository
     return result.data.repository.issue;
   }
 
+  /**
+   * Number of repositories belongs to one GitHub token
+   * @param number_of_repos 
+   * @param credentials 
+   * @returns 
+   */
   async getGitHubNumberOfRepos(
     number_of_repos: number,
     credentials: string
@@ -88,9 +109,16 @@ export class GithubRepository
     return result.data.viewer.repositories.nodes;
   }
 
+  /**
+   * User can react to and issue like laugh, hooray, confused, heart, eyes, rocket, thumbs_up(+1), thumbs_down(-1)
+   * @param owner 
+   * @param repository 
+   * @param id : Issue id
+   * @param reaction : Reactions (laugh, hooray, confused, heart, eyes, rocket, thumbs_up, thumbs_down)
+   * @param credentials 
+   * @returns 
+   */
   async reactGitHubIssue(
-    owner: string,
-    repository: string,
     id: string,
     reaction: string,
     credentials: string
@@ -112,6 +140,13 @@ export class GithubRepository
     return result;
   }
 
+  /**
+   * Return the id of a repository based on the owner and repository name.
+   * @param owner 
+   * @param repository_name 
+   * @param credentials 
+   * @returns 
+   */
   async getGitHubRepositoryId( 
     owner: string,
     repository_name: string,
@@ -129,6 +164,14 @@ export class GithubRepository
     return result.data.repository.id;
   }
 
+  /**
+   * Create a new issue in the repository.
+   * @param repository Id of the repository
+   * @param title Name of the issue
+   * @param body description of the issue
+   * @param credentials 
+   * @returns 
+   */
   async createGitHubIssue(
     repository: string,
     title: string,

@@ -25,6 +25,7 @@ export class UserResolver {
         @Arg("userId") name: string,
         @Arg("provider") provider: string,
         @Arg("credentials") credentials: string): Promise<any> {
+        provider = provider.toUpperCase();
         return this.userService.createUserWithCredentials(name, provider, credentials);
     }
         

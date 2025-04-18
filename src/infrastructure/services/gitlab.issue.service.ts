@@ -11,7 +11,7 @@ export class GitLabIssueService {
 ) {}
 
     async getGitLabProjectsList(number_of_projects: number, postgresUserId:string): Promise<GitLabProjects[] | undefined> {
-        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);
+        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITLAB_TOKEN);
             if (!credentials) {
               throw new Error("User credentials not found");
             }
@@ -19,7 +19,7 @@ export class GitLabIssueService {
     }
 
     async getGitLabProjectIssues(project_path: string, postgresUserId:string): Promise<GitLabProjectsIssues[] | undefined> {
-        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);
+        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITLAB_TOKEN);
             if (!credentials) {
               throw new Error("User credentials not found");
             }
@@ -27,7 +27,7 @@ export class GitLabIssueService {
     }
 
     async getGitLabProjectIssue(project_path: string, issue_id: string, postgresUserId:string): Promise<GitLabProjectsIssues | undefined> {
-        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);
+        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITLAB_TOKEN);
             if (!credentials) {
               throw new Error("User credentials not found");
             }
@@ -35,7 +35,7 @@ export class GitLabIssueService {
     }
 
     async createGitLabProjectIssue(project_path: string, title: string, description: string, postgresUserId:string): Promise<GitLabProjectsIssues | undefined> {
-        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);
+        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITLAB_TOKEN);
             if (!credentials) {
               throw new Error("User credentials not found");
             }
@@ -43,7 +43,7 @@ export class GitLabIssueService {
     }
 
     async awardEmojiToGitLabProjectIssue(issue_id: string, award_emoji: string, postgresUserId:string): Promise<AwardEmojiAdd | undefined> {
-        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);
+        const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITLAB_TOKEN);
             if (!credentials) {
               throw new Error("User credentials not found");
             }

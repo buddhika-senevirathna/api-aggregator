@@ -18,14 +18,11 @@ export class UserService {
     }
 
     async getUserCredentials(id: string, provider:string): Promise<string | null> {
-        console.log("User ID:", id,"provider", provider);
         const usersCredentials = await this.repo.getCredentialsByUserId(id, provider);
-        console.log("User credentials:", usersCredentials);
         if (!usersCredentials) {
             return null;
         }
         const decryptedCredentials = await this.decrypt(usersCredentials.credentials);
-        console.log("Decrypted credentials:", decryptedCredentials);
         return decryptedCredentials;
     }
 

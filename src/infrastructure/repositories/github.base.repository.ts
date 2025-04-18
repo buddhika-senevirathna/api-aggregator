@@ -22,6 +22,7 @@ export class GitHubBaseRepository {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error";
       logger.error("Error fetching GitHub issues:", message);
+      throw new Error(`Error fetching GitHub issues: ${message}`);
     }
   }
 }

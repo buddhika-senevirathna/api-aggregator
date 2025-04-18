@@ -22,7 +22,7 @@ export class GitLabBaseRepository {
         } catch (error) {
             const message = error instanceof Error ? error.message : "Unknown error";
             this.logger.error(message);
-            throw new Error("Failed to fetch data from GitLab API");
+            throw new Error(`Error fetching GitLab issues: ${message}`);
         }
         
     }

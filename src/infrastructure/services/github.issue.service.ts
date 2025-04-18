@@ -15,7 +15,6 @@ export class GithubIssueService {
   async getGitHubRepositoryIssues(
     owner: string,
     repository: string,
-    userId: string,
     postgresUserId: string
   ): Promise<GitHubIssue[] | undefined> {
     const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);

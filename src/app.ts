@@ -8,6 +8,7 @@ import { LoggerService } from "./services/logger.service";
 import { GitHubIssueResolver } from "./infrastructure/resolvers/github.resolver";
 import { GitLabIssueResolver } from "./infrastructure/resolvers/gitlab.resolver";
 import { config } from "./services/config.service";
+import { GraphQLError } from "graphql";
 import "./container";
 
 async function bootstrap() {
@@ -26,7 +27,7 @@ async function bootstrap() {
     context: async ({ req }) => {
       const userId = req.headers["user-id"];
       if (!userId) {
-        throw new Error("User ID not found in request headers");
+        throw new GraphQLError("User ID not found in request");
       }
       return { req, userId };
     },
