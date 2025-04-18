@@ -1,5 +1,5 @@
 {
-    "name": "nodejs-boilerplate-v2",
+    "name": "API-aggregator",
     "version": "1.0.0",
     "description": "",
     "main": "src/app.js",
