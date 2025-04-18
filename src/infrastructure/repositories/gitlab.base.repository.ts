@@ -4,13 +4,13 @@ import { config } from "../../services/config.service";
 export class GitLabBaseRepository {
     private readonly logger: LoggerService = new LoggerService(GitLabBaseRepository.name);
 
-    protected async executeGitLabQueries(query:string, variables:any): Promise<any> {
+    protected async executeGitLabQueries(query:string, variables:any, credentials:string): Promise<any> {
         try {
             const response = await fetch(config.GITLAB_API_URL, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: `Bearer ${config.GITLAB_TOKEN}`,
+                  Authorization: `Bearer ${credentials}`,
                 },
                 body: JSON.stringify({
                   query: query,

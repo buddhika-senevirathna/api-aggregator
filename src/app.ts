@@ -23,6 +23,13 @@ async function bootstrap() {
   const server = new ApolloServer({ schema });
   const { url } = await startStandaloneServer(server, {
     listen: { port: config.PORT },
+    context: async ({ req }) => {
+      const userId = req.headers["user-id"];
+      if (!userId) {
+        throw new Error("User ID not found in request headers");
+      }
+      return { req, userId };
+    },
   });
   logger.log(`🚀 Server ready at ${url}`);
 }

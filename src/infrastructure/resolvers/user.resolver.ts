@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, Ctx } from "type-graphql";
 import { User, Credentials } from "../../models/user.model";
 import { UserService } from "../services/user.service";
 import { injectable } from "tsyringe";

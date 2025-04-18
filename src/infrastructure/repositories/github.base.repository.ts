@@ -5,12 +5,12 @@ const logger = new LoggerService();
 
 export class GitHubBaseRepository {
 
-  async executeGitHubQueries(query: string, variables: {}) {
+  async executeGitHubQueries(query: string, variables: {}, credentials: string | undefined) {
     try {
       const response = await fetch(config.GITHUB_API_URL, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${config.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${credentials}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

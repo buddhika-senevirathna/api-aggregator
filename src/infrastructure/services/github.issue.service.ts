@@ -2,21 +2,23 @@ import { IGitHubRepository } from "src/interfaces/iGitHubRepository";
 import { GitHubIssue, GitHubRepositories } from "src/models/github.issue.model";
 import { inject, injectable } from "tsyringe";
 import { UserService } from "./user.service";
+import { config } from "../../services/config.service";
 
 @injectable()
 export class GithubIssueService {
   constructor(
     @inject("IGitHubRepository")
     private readonly gitHubRepository: IGitHubRepository,
-    @inject("UserService") private readonly userService: UserService
+    private readonly userService: UserService
   ) {}
 
   async getGitHubRepositoryIssues(
     owner: string,
     repository: string,
-    userId: string
+    userId: string,
+    postgresUserId: string
   ): Promise<GitHubIssue[] | undefined> {
-    const credentials = await this.userService.getUserCredentials(userId, "GitHub");
+    const credentials = await this.userService.getUserCredentials(postgresUserId, config.GITHUB_TOKEN);
     if (!credentials) {
       throw new Error("User credentials not found");
     }
@@ -30,51 +32,78 @@ export class GithubIssueService {
   async getGitHubIssueDetails(
     owner: string,
     repository: string,
-    issue_number: number
+    issue_number: number,
+    userId: string
   ): Promise<GitHubIssue | undefined> {
+    const credentials = await this.userService.getUserCredentials(userId, config.GITHUB_TOKEN);
+    if (!credentials) {
+      throw new Error("User credentials not found");
+    }
     return await this.gitHubRepository.getGitHubIssueDetails(
       owner,
       repository,
-      issue_number
+      issue_number,
+      credentials
     );
   }
 
   async getGitHubNumberOfRepos(
-    number_of_repos: number
+    number_of_repos: number, userId: string
   ): Promise<GitHubRepositories[]> {
-    return await this.gitHubRepository.getGitHubNumberOfRepos(number_of_repos);
+    const credentials = await this.userService.getUserCredentials(userId, config.GITHUB_TOKEN);
+    if (!credentials) {
+      throw new Error("User credentials not found");
+    }
+    return await this.gitHubRepository.getGitHubNumberOfRepos(number_of_repos, credentials);
   }
 
   async reactGitHubIssue(
     owner: string,
     repository: string,
     id: string,
-    reaction: string
+    reaction: string,
+    userId: string
   ): Promise<GitHubIssue | undefined> {
+    const credentials = await this.userService.getUserCredentials(userId, config.GITHUB_TOKEN);
+    if (!credentials) {
+      throw new Error("User credentials not found");
+    }
     return await this.gitHubRepository.reactGitHubIssue(
       owner,
       repository,
       id,
-      reaction
+      reaction,
+      credentials
     );
   }
 
   async createGitHubIssue(
     repository: string,
     title: string,
-    body: string
+    body: string,
+    userId: string
   ): Promise<GitHubIssue | undefined> {
+    const credentials = await this.userService.getUserCredentials(userId, config.GITHUB_TOKEN);
+    if (!credentials) {
+      throw new Error("User credentials not found");
+    }
     return await this.gitHubRepository.createGitHubIssue(
       repository,
       title,
-      body
+      body,
+      credentials
     );
   }
 
   async getGitHubRepositoryId(
     owner: string,
-    repository: string
+    repository: string,
+    userId: string
   ): Promise<string | undefined> {
-    return await this.gitHubRepository.getGitHubRepositoryId(owner, repository);
+    const credentials = await this.userService.getUserCredentials(userId, config.GITHUB_TOKEN);
+    if (!credentials) {
+      throw new Error("User credentials not found");
+    }
+    return await this.gitHubRepository.getGitHubRepositoryId(owner, repository, credentials);
   }
 }
