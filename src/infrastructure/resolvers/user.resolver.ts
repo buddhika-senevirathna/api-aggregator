@@ -13,6 +13,11 @@ export class UserResolver {
         return this.userService.getUsers();
     }
 
+    @Query(() => User)
+    async getUserByEmail(@Arg("email") email: string): Promise<User | null> {
+        return this.userService.getUserByEmail(email);
+    }
+
     @Mutation(() => User)
     async createUser(
         @Arg("name") name: string,

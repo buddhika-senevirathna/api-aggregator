@@ -15,8 +15,6 @@ export interface IGitHubRepository {
   getGitHubNumberOfRepos(number_of_repos: number, credentials:string): Promise<GitHubRepositories[]>;
 
   reactGitHubIssue(
-    owner: string,
-    repository: string,
     id: string,
     reaction: string,
     credentials: string

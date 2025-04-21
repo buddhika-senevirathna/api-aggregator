@@ -10,5 +10,6 @@
         "emitDecoratorMetadata": true,
         "types": ["node","jest", "@types/jest"],
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*", "test/**/*"],
+    "exclude": ["node_modules"]
 }

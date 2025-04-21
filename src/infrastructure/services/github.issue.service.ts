@@ -57,8 +57,6 @@ export class GithubIssueService {
   }
 
   async reactGitHubIssue(
-    owner: string,
-    repository: string,
     id: string,
     reaction: string,
     userId: string
@@ -68,8 +66,6 @@ export class GithubIssueService {
       throw new Error("User credentials not found");
     }
     return await this.gitHubRepository.reactGitHubIssue(
-      owner,
-      repository,
       id,
       reaction,
       credentials

@@ -20,6 +20,10 @@ export class UserService {
         return this.repo.getAll();
     }
 
+    getUserByEmail(email: string): Promise<User | null> {
+        return this.repo.getUserByEmail(email);
+    }
+
     async getUserCredentials(id: string, provider:string): Promise<string | null> {
         const usersCredentials = await this.repo.getCredentialsByUserId(id, provider);
         if (!usersCredentials) {

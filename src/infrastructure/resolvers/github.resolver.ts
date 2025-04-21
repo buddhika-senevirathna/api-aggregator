@@ -12,7 +12,7 @@ export class GitHubIssueResolver {
     constructor(private readonly gitHubIssueService: GithubIssueService) {}
     
     @Query(() => [GitHubIssue])
-    async getGitHubIssues(@Arg("owner") owner: string, @Arg("repository") repository: string, @Ctx() context: any ): Promise<GitHubIssue[] | undefined> {
+    async getGitHubIssues(@Arg("owner") owner: string, @Arg("repository_name") repository: string, @Ctx() context: any ): Promise<GitHubIssue[] | undefined> {
         try {
             const postgresUserId = context?.userId;
             return await this.gitHubIssueService.getGitHubRepositoryIssues(owner, repository, postgresUserId);
@@ -36,7 +36,7 @@ export class GitHubIssueResolver {
     }
 
     @Query(() => [GitHubRepositories])
-    async getGitHubNumberOfRepos(@Arg("number_of_repos") number_of_repos: number, @Ctx() context: any): Promise<GitHubRepositories[]> {
+    async getGitHubRepoList(@Arg("number_of_repos") number_of_repos: number, @Ctx() context: any): Promise<GitHubRepositories[]> {
         try {
             return await this.gitHubIssueService.getGitHubNumberOfRepos(number_of_repos, context?.userId);
         } catch (error) {
@@ -60,15 +60,13 @@ export class GitHubIssueResolver {
 
     @Mutation(() => GitHubIssue)
     async reactGitHubIssue(
-        @Arg("owner") owner: string,
-        @Arg("repository") repository: string, 
         @Arg("issue_id") id: string,
         @Arg("reaction") reaction: string,
         @Ctx() context: any
     ): Promise<GitHubIssue | undefined> {
         try {
             const postgresUserId = context?.userId;
-            return await this.gitHubIssueService.reactGitHubIssue(owner, repository, id, reaction, postgresUserId);
+            return await this.gitHubIssueService.reactGitHubIssue(id, reaction, postgresUserId);
         } catch (error) {
             const message = error instanceof Error ? error.message : "Unknown error";
             this.logger.error(message);

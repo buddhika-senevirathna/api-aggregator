@@ -11,8 +11,8 @@ export class User {
   @Field(() => String, { nullable: true })
   email!:string | null;
 
-  @Field(() => [Credentials])
-  credentials!:[Credentials]
+  @Field(() => [Credentials], { nullable: true })
+  credentials!:[Credentials] | null;
 }
 @ObjectType()
 export class Credentials {

@@ -14,6 +14,32 @@ export class UserRepository implements IUserRepository {
     return await prisma.user.findMany();
   }
 
+  async getUserByEmail(email: string): Promise<any | null> {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        credentials: {
+          select: {
+            id: true,
+            credentials: true,
+            userId: true,
+            provider: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
   async create(name: string, email:string): Promise<any> {
     const user = await prisma.user.create({
       data: {
