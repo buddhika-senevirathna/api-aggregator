@@ -72,7 +72,7 @@ mutation CreateUser {
 Alternatively, use the `cURL` command below:
 
 ```bash
-curl -X POST https://your-graphql-endpoint.com/ \
+curl -X POST http://localhost:13000(your-api-endpoint)/(/ \
   -H "Content-Type: application/json" \
   -H "user-id: your-user-id-string" \
   -d '{
@@ -81,7 +81,7 @@ curl -X POST https://your-graphql-endpoint.com/ \
 ```
 
 > Replace:
-> - `https://your-graphql-endpoint.com/` with your actual GraphQL endpoint   
+> - `http://localhost:13000(your-api-endpoint)/(/` with your actual GraphQL endpoint   
 > - `<email of the user>` and `<name of the user>` with real values
 
 ### Response
@@ -156,7 +156,7 @@ query GetUserByEmail {
 #### cURL Example
 
 ```bash
-curl -X POST http://localhost:4000 \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: your-user-id-string" \
   -d '{
@@ -165,7 +165,7 @@ curl -X POST http://localhost:4000 \
 ```
 
 > Replace:
-> - `http://localhost:4000` with your GraphQL server endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your GraphQL server endpoint
 > - `user's email address` with the actual user’s email address
 
 The response will return the user ID along with name, email, and any existing credentials.
@@ -200,13 +200,13 @@ mutation CreateUserWithCredentials {
 > - `"GITHUB ACCESS TOKEN"` with your actual GitHub access token  
 > - `"PROVIDER"` with `GITHUB` or `GITLAB`. In the future, if other services are supported, you can use the respective provider name.  
 > - `"USER ID"` with the ID of the registered user  
-> - `https://your-graphql-endpoint.com/` with your actual GraphQL server URL  
+> - `http://localhost:13000(your-api-endpoint)/(/` with your actual GraphQL server URL  
 > - `your-user-id-string` with a valid user ID (if required in headers)
 
 ### cURL Command
 
 ```bash
-curl -X POST https://your-graphql-endpoint.com/ \
+curl -X POST http://localhost:13000(your-api-endpoint)/(/ \
   -H "Content-Type: application/json" \
   -H "user-id: your-user-id-string" \
   -d '{
@@ -218,7 +218,7 @@ curl -X POST https://your-graphql-endpoint.com/ \
 > - `"GITHUB ACCESS TOKEN"` with your actual GitHub access token  
 > - `"PROVIDER"` with `GITHUB` or `GITLAB`. In the future, if other services are supported, you can use the respective provider name.  
 > - `"USER ID"` with the ID of the registered user  
-> - `https://your-graphql-endpoint.com/` with your actual GraphQL server URL  
+> - `http://localhost:13000(your-api-endpoint)/(/` with your actual GraphQL server URL  
 > - `your-user-id-string` with a valid user ID (if required in headers)
 
 ## Ready for GitHub and GitLab Testing
@@ -258,7 +258,7 @@ query GetUserByEmail {
 ### cURL Command
 
 ```bash
-curl -X POST https://your-graphql-endpoint.com/ \
+curl -X POST http://localhost:13000(your-api-endpoint)/(/ \
   -H "Content-Type: application/json" \
   -H "user-id: your-user-id-string" \
   -d '{
@@ -267,7 +267,7 @@ curl -X POST https://your-graphql-endpoint.com/ \
 ```
 
 > Replace:
-> - `https://your-graphql-endpoint.com/` with your actual GraphQL server endpoint  
+> - `http://localhost:13000(your-api-endpoint)/(/` with your actual GraphQL server endpoint  
 > - `your-user-id-string` with a valid user ID (if required)  
 > - `"user@example.com"` with the actual email address of the registered user
 
@@ -295,7 +295,7 @@ query GetGitHubRepoList {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-graphql-endpoint.com/ \
+curl -X POST http://localhost:13000(your-api-endpoint)/(/ \
   -H "Content-Type: application/json" \
   -H "user-id: your-user-id-string" \
   -d '{
@@ -329,7 +329,7 @@ query GetGitHubRepositoryId {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -338,7 +338,7 @@ curl -X POST https://your-api-endpoint/graphql \
 ```
 
 > 🔁 Replace:
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint  
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint  
 > - `YOUR_USER_ID_HERE` with the user ID tied to GitHub credentials  
 > - `<repository name>` and `<GitHub owner's name>` with the actual values
 
@@ -371,7 +371,7 @@ query GetGitHubIssues {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -383,7 +383,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > - `<name of the repository>` with the actual repository name  
 > - `<owner's username>` with the GitHub username of the repository owner  
 > - `YOUR_USER_ID_HERE` with the valid registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 If everything is set up correctly and the user has access, the query will return the list of issues.
 
@@ -418,7 +418,7 @@ mutation CreateGitHubIssue {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -433,7 +433,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > - `<Title of the issue>` with a meaningful title  
 > - `<ID of the repository>` with the repository ID obtained earlier  
 > - `YOUR_USER_ID_HERE` with the valid user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 Once the issue is created, you can verify it by running the `GetGitHubIssues` query again to see the newly created issue in the list.
 
@@ -471,7 +471,7 @@ mutation ReactGitHubIssue {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -483,7 +483,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > - `<reaction>` with a valid GitHub reaction type from the list above  
 > - `<Issue Id>` with the ID of the issue you want to react to  
 > - `YOUR_USER_ID_HERE` with your registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 Now you can see your reaction inside your GitHub repository issue.
 
@@ -513,7 +513,7 @@ query GetGitLabProjectsList {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -524,7 +524,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > 🔁 **Replace the placeholders:**
 > - `<Number of projects>` with the number of GitLab projects you want to retrieve  
 > - `YOUR_USER_ID_HERE` with your registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 ---
 ### 🐛 Get the List of GitLab Project Issues
@@ -549,7 +549,7 @@ query GetGitLabProjectIssues {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -560,7 +560,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > 🔁 **Replace the placeholders:**
 > - `<Project Path>` with the full path of the GitLab project (e.g., `username/project-name`)  
 > - `YOUR_USER_ID_HERE` with your registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 If there are no issues in the selected project, the response will return an empty array.
 
@@ -591,7 +591,7 @@ mutation CreateGitLabProjectIssue {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -604,7 +604,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > - `<issue title>` with the title of the issue  
 > - `<project path>` with the full path of the GitLab project (e.g., `username/project-name`)  
 > - `YOUR_USER_ID_HERE` with your registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 This mutation will create the issue and return the `id`, `iid`, `title`, and `description` of the created issue.
 
@@ -634,7 +634,7 @@ query GetGitLabProjectIssue {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -646,7 +646,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > - `<Issue id (iid)>` with the issue IID retrieved earlier  
 > - `<project path>` with the full path of the GitLab project (e.g., `username/project-name`)  
 > - `YOUR_USER_ID_HERE` with your registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 This query will return more detailed information about the selected issue.
 
@@ -673,7 +673,7 @@ mutation AwardEmojiToGitLabProjectIssue {
 #### cURL Command
 
 ```bash
-curl -X POST https://your-api-endpoint/graphql \
+curl -X POST http://localhost:13000(your-api-endpoint)/( \
   -H "Content-Type: application/json" \
   -H "user-id: YOUR_USER_ID_HERE" \
   -d '{
@@ -685,7 +685,7 @@ curl -X POST https://your-api-endpoint/graphql \
 > - `<emoji>` with the emoji you want to award to the issue (e.g., `:thumbsup:`, `:tada:`, `:heart:`)  
 > - `<issue id>` with the ID of the issue you want to react to  
 > - `YOUR_USER_ID_HERE` with your registered user ID  
-> - `https://your-api-endpoint/graphql` with your actual GraphQL endpoint
+> - `http://localhost:13000(your-api-endpoint)/(` with your actual GraphQL endpoint
 
 This mutation will return details about the awarded emoji, including its name, description, and unicode version.
 
@@ -699,4 +699,5 @@ This mutation will return details about the awarded emoji, including its name, d
 ## ⚡ Points to Improve
 - **Auth Token Integration**: The system would benefit from implementing an authentication token concept to securely manage access and ensure proper user authorization for API calls.
 - **Validation**: Some necessary validations are missing from the system due to time constraints. Adding proper input and data validation would improve system robustness and security.
+- **Unified Endpoint**: Create a new single endpoint to manage all types of requests. This would simplify the client-side integration, reduce redundancy, and centralize the request handling logic.
 
